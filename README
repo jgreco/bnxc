@@ -1,0 +1,82 @@
+README for bnxc
+===============
+
+	bnxc functions as a fully capable XMMS2
+	(http://wiki.xmms2.xmms.se/wiki/Main_Page) client with an Ncurses
+	interface.  It includes scripts that generate a database file
+	(conforming to the format defined in the assignment) from a directory
+	defined in the enviromental variable $COLLECTION.  Usage is detailed
+	later in this file.
+
+	It requires that ncurses development and xmms2 development packages
+	be present.
+
+  For information on building see BUILD
+
+
+bnxc usage.
+===========
+
+  (for general XMMS2 usage see the next section)
+
+  "the collection" is a directory containing directories for each artist.
+  each artist directory should contain directories for each album, which will
+  contain the music files (ogg, flac, mp3) for that album.
+
+  The names for each directory and media file will be used to organize the
+  collection, NOT media file meta-data.
+
+
+  Before the every run the ENV variable COLLECTION should be set to the *full*
+  path of the music collection you want bnxc to use.
+
+  Before the first run the script 'update-collection.sh' should be run.  This
+  will generate the database file that bnxc will use.
+
+  Once started, bnxc will present the user with a list of artists in the
+  collection.  The user may select an artist using either the arrow keys, or
+  j and k (vi keys).  At this point the user may chose to do one of the
+  following:
+
+	a - add all the tracks for that artist to the current playlist
+	A - clear the current playlist and add all the tracks for that artist
+	l or enter - display the albums for that artist
+	q - quit bnxc
+
+  If the user presses l or enter then a list of albums will be presented that
+  operates in a similar manner:
+
+	a - add all the tracks for that album to the current playlist
+	A - clear the current playlist and all all the tracks for that album
+	l or enter - diplay the tracks for that album
+	q or h - go back to the artists menu
+
+  If the user presses l or enter then a list of tracks will be presented that
+  operates in a similar manner:
+
+	a, enter, or l - add that track to the current playlist
+	A - clear the current playlist and add that track
+	q or h - go back to the albums menu
+
+
+
+XMMS2 usage.
+============
+
+  XMMS2 is a client-server model mediaplayer for Unix-like operating systems.
+
+  The xmms2 server is responsible for actually playing media and can be
+  controlled by numerous other programs called xmms2 clients (the full
+  version of bnxc is one of these).
+
+
+  Once installed, the server may be started by issuing the command 'xmms2d'.
+  After the server is running, any client may be started.
+
+  Any number of clients may be used at any time and the server does not halt
+  playback when a client is disconnected.  This allows the user to do things
+  like use the standard xmms2 cli client to list the current playlist
+  ('xmms list') while also using the full version of bnxc to add songs to it.
+  (bnxc currently lacks some features like viewing the current playlist, the
+  author suggests running the command `watch xmms2 view` in a seperate xterm).
+
