@@ -28,8 +28,6 @@ int read_db(char *filename)
 		struct st_artist *curr_artist;
 		struct st_album *curr_album;
 
-		int year;
-
 		/* consume blank lines */
 		while(line[0] == '\n')
 			fgets(line, LINEMAX, in);
@@ -37,10 +35,8 @@ int read_db(char *filename)
 		curr_artist = add_artist(strip_nl(line));
 
 		fgets(line, LINEMAX, in);
-		year = atoi(strncpy(malloc(sizeof(char)*4), line, 4));
-		curr_album = add_album(curr_artist, strip_nl(line+5), year);
+		curr_album = add_album(curr_artist, strip_nl(line));
 
-		curr_album->year = year;
 		while(fgets(line, LINEMAX, in) != NULL)
 		{
 			if(line[0] == '-')
@@ -84,7 +80,7 @@ void dump_db()
 					album = (struct st_album *)(alb->contents);
 
 					fprintf(out, "%s\n", np->name);
-					fprintf(out, "%d %s\n", album->year, album->name);
+					fprintf(out, "%s\n", album->name);
 					free(album->name);
 
 
@@ -193,7 +189,7 @@ struct st_artist *add_artist(char *artist_name)
 
 /* TODO, needs serious cleanup and consolidation forgot to make it insert by cronological order
  * until too late.  currently works though */
-struct st_album *add_album(struct st_artist *artist, char *album_name, int year)
+struct st_album *add_album(struct st_artist *artist, char *album_name)
 {
 	struct nlist *new;
 	struct nlist *np;

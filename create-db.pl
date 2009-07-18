@@ -17,7 +17,6 @@ while(<IN>) {
 		print "\n";
 		print $artist;
 		print "\n";
-		print "1000 "; #I don't really care about the year, this could potentially be added later though
 		print $album;
 		print "\n-";
 		print @line[2];
