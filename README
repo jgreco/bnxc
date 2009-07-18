@@ -1,15 +1,15 @@
 README for bnxc
 ===============
 
-	bnxc functions as a fully capable XMMS2
-	(http://wiki.xmms2.xmms.se/wiki/Main_Page) client with an Ncurses
-	interface.  It includes scripts that generate a database file
-	(conforming to the format defined in the assignment) from a directory
-	defined in the enviromental variable $COLLECTION.  Usage is detailed
-	later in this file.
+  bnxc functions as a fully capable XMMS2
+  (http://wiki.xmms2.xmms.se/wiki/Main_Page) client with an Ncurses
+  interface.  It includes scripts that generate a database file
+  (conforming to the format defined in the assignment) from a directory
+  defined in the enviromental variable $COLLECTION.  Usage is detailed
+  later in this file.
 
-	It requires that ncurses development and xmms2 development packages
-	be present.
+  It requires that ncurses development and xmms2 development packages
+  be present.
 
   For information on building see BUILD
 
@@ -66,8 +66,8 @@ XMMS2 usage.
   XMMS2 is a client-server model mediaplayer for Unix-like operating systems.
 
   The xmms2 server is responsible for actually playing media and can be
-  controlled by numerous other programs called xmms2 clients (the full
-  version of bnxc is one of these).
+  controlled by numerous other programs called xmms2 clients (bnxc is one of
+  these).
 
 
   Once installed, the server may be started by issuing the command 'xmms2d'.
