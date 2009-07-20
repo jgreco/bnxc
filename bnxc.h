@@ -81,6 +81,9 @@ char** get_track_list(struct st_album *album);
 #ifdef XMMS2
 	xmmsc_connection_t *connection;
 	xmmsc_result_t *result;
+	xmmsv_t *value;
+	const char *errbuf;
+
 	char *collection_path;
 
 	void player_add_track(char *artist, char *album, char *track);

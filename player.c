@@ -45,8 +45,10 @@ void player_clear_playlist()
 	result = xmmsc_playlist_clear(connection, NULL);
 	xmmsc_result_wait(result);
 
-	if(xmmsc_result_iserror(result))
-		fprintf(stderr, "%s", xmmsc_result_get_error(result));
+	value = xmmsc_result_get_value(result);
+
+	if(xmmsv_get_error(value, &errbuf))
+		fprintf(stderr, "%s", errbuf);
 
 	return;
 }
@@ -56,8 +58,12 @@ void player_play()
 	result = xmmsc_playback_start(connection);
 	xmmsc_result_wait(result);
 
-	if(xmmsc_result_iserror(result))
-		fprintf(stderr, "%s", xmmsc_result_get_error(result));
+	value = xmmsc_result_get_value(result);
+
+	if(xmmsv_get_error(value, &errbuf))
+		fprintf(stderr, "%s", errbuf);
+
+	return;
 }
 
 void player_pause()
@@ -65,8 +71,12 @@ void player_pause()
 	result = xmmsc_playback_pause(connection);
 	xmmsc_result_wait(result);
 
-	if(xmmsc_result_iserror(result))
-		fprintf(stderr, "%s", xmmsc_result_get_error(result));
+	value = xmmsc_result_get_value(result);
+
+	if(xmmsv_get_error(value, &errbuf))
+		fprintf(stderr, "%s", errbuf);
+
+	return;
 }
 
 void player_stop()
@@ -74,8 +84,12 @@ void player_stop()
 	result = xmmsc_playback_stop(connection);
 	xmmsc_result_wait(result);
 
-	if(xmmsc_result_iserror(result))
-		fprintf(stderr, "%s", xmmsc_result_get_error(result));
+	value = xmmsc_result_get_value(result);
+
+	if(xmmsv_get_error(value, &errbuf))
+		fprintf(stderr, "%s", errbuf);
+
+	return;
 }
 
 #endif

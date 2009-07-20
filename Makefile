@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -O3 -Wall -Wextra -Wno-unused-parameter -pedantic -pipe -I/usr/include/xmms2
+CFLAGS = -O3 -Wall -Wextra -Wno-unused-parameter -pedantic -pipe -I/usr/local/include/xmms2
 LIBS = -lxmmsclient -lncursesw
 OBJDIR = build
 OBJECTS = main.o db.o utils.o frontend.o player.o
