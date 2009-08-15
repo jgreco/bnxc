@@ -51,6 +51,9 @@ int main(int argc, char* argv[])
 
 	endwin();  /* cleanup */
 
+	dump_db();
+
+printf("exiting\n");
 	return 0;
 #endif
 

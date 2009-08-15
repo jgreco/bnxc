@@ -19,20 +19,21 @@
 #endif
 
 #define LINEMAX 1024
+#define STRN_SIZE 256
 
 struct songlist {
-	char *name;
+	char name[STRN_SIZE];
 	struct songlist *next;
 };
 
 struct st_album {
-	char *name;
+	char name[STRN_SIZE];
 	struct songlist *songs;
 	int num_songs;
 };
 
 struct st_artist {
-	char *name;
+	char name[STRN_SIZE];
 	struct nlist *albums;
 	int num_albums;
 };
@@ -40,14 +41,31 @@ struct st_artist {
 struct nlist {
 	struct nlist *next;
 	void *contents;
-	char *name;
+	char name[STRN_SIZE];
 };
 
+typedef struct menu_parameters_str {
+	char** list;
+	unsigned int list_len;
+
+	char *title;
+
+	char** sections;
+	unsigned int num_sections;
+	unsigned int curr_section;
+
+	char *commands;
+	unsigned int entered;
+	unsigned int select;
+	unsigned int scroll;
+	unsigned int height;
+	unsigned int width;
+} *menu_parameters;
 
 /* FOUND IN utils.c */
-char* rm_dash(char *str);
 char *strip_nl();
 int stringcmp(const void *a, const void *b);
+void destroy_menu_params(menu_parameters params);
 
 /* FOUND IN db.c */
 unsigned int num_artists;
@@ -68,7 +86,7 @@ char** get_track_list(struct st_album *album);
 
 #ifdef FRONTEND_NCURSES
 	void ninterface();
-	int nmenu(char* list[], unsigned int list_len, char *title, char* sections[], unsigned int num_sections, unsigned int curr_section, char* commands, int* entered, int select);
+	int nmenu();
 #endif
 #ifndef FRONTEND_NCURSES
 	void min_print_usage();

@@ -39,8 +39,8 @@ int read_db(char *filename)
 
 		while(fgets(line, LINEMAX, in) != NULL)
 		{
-			if(line[0] == '-')
-				add_song(curr_album, rm_dash(strip_nl(line)));
+			if(line[0] != '\n')
+				add_song(curr_album, strip_nl(line));
 			else
 				break;
 		}
@@ -51,11 +51,9 @@ int read_db(char *filename)
 	return 1;
 }
 
-/* dumps the database to disk and frees memory.  still misses some right now but good enough for goverment work ;) */
+/* destroys the database, freeing the memory.  still misses some right now but good enough for goverment work ;) */
 void dump_db()
 {
-	FILE *out = fopen(".db_temp", "w");
-
 	int i;
 
 	for(i=0; i<HASHSIZE; i++)
@@ -71,7 +69,7 @@ void dump_db()
 
 				at = (struct st_artist *)(np->contents);
 
-				for(alb = at->albums; alb != NULL; alb = alb->next)
+				for(alb = at->albums; alb != NULL; alb = alb->next)  /* for all the albums */
 				{
 					struct st_album *album;
 					struct songlist *sng;
@@ -79,28 +77,13 @@ void dump_db()
 
 					album = (struct st_album *)(alb->contents);
 
-					fprintf(out, "%s\n", np->name);
-					fprintf(out, "%s\n", album->name);
-					free(album->name);
-
-
-					if(album->songs == NULL)
-						fprintf(out, "hmm, no songs\n");
-
-					for(sng = album->songs; sng != NULL; sng = sng->next)
-					{
-						fprintf(out, "-%s\n", sng->name);
-						free(sng->name);
-					}
 					sng = album->songs;
-					while(sng != NULL)
+					while(sng != NULL)  /* free all the songs */
 					{
 						temp = sng;
 						sng = sng->next;
 						free(temp);
 					}
-
-					fprintf(out, "\n");
 				}
 
 				alb = at->albums;
@@ -125,16 +108,13 @@ void dump_db()
 			{
 				temp = np;
 				np = np->next;
-				free(((struct st_artist *)(temp->contents))->name);
 				free(temp->contents);
 				free(temp);
 			}
 		}
 	}
 
-	fclose(out);
-
-	rename(".db_temp", getenv("BNXC"));
+	return;
 }
 
 static unsigned int hash(char *s)
@@ -166,17 +146,18 @@ struct st_artist *add_artist(char *artist_name)
 		np = (struct nlist *) malloc(sizeof(*np));
 		np->contents = (struct st_artist *) malloc(sizeof(struct st_artist));
 
-		if(np == NULL || (np->name = strdup(artist_name)) == NULL || np->contents==NULL) /* create the artist */
+		if(np == NULL || np->contents==NULL) /* create the artist */
 		{
 			fprintf(stderr, "failled to allocate artist\n");
 			exit(EXIT_FAILURE); /* return if crap broke */
 		}
+		strncpy(np->name,artist_name, STRN_SIZE*sizeof(char));
 
 		hashval = hash(artist_name);
 		np->next = hashtable[hashval];
 		hashtable[hashval] = np;
 
-		((struct st_artist *)(np->contents))->name = strdup(artist_name);
+		strncpy(((struct st_artist *)(np->contents))->name,artist_name,STRN_SIZE*sizeof(char));
 		((struct st_artist *)(np->contents))->num_albums = 0;
 		((struct st_artist *)(np->contents))->albums = NULL;
 
@@ -187,8 +168,6 @@ struct st_artist *add_artist(char *artist_name)
 }
 
 
-/* TODO, needs serious cleanup and consolidation forgot to make it insert by cronological order
- * until too late.  currently works though */
 struct st_album *add_album(struct st_artist *artist, char *album_name)
 {
 	struct nlist *new;
@@ -200,17 +179,18 @@ struct st_album *add_album(struct st_artist *artist, char *album_name)
 
 	new = (struct nlist *) malloc(sizeof(struct nlist));
 	new->contents = (struct st_album *) malloc(sizeof(struct st_album));
-	if(new == NULL || (new->name = strdup(album_name)) == NULL || new->contents == NULL)
+	if(new == NULL || new->contents == NULL)
 	{
 		fprintf(stderr, "failed to allocate album\n");
 		exit(EXIT_FAILURE); /* crap broke. */
 	}
+	strncpy(new->name, album_name, STRN_SIZE*sizeof(char));
 
 	new->next = artist->albums;
 	artist->albums = new;
 	artist->num_albums++;
 
-	((struct st_album *)(new->contents))->name = strdup(album_name);
+	strncpy(((struct st_album *)(new->contents))->name, album_name,STRN_SIZE*sizeof(char));
 	((struct st_album *)(new->contents))->songs = NULL;
 	((struct st_album *)(new->contents))->num_songs = 0;
 
@@ -225,7 +205,7 @@ void add_song(struct st_album *album, char *trackname)
 	if(np == NULL)
 	{
 		album->songs = (struct songlist *) malloc(sizeof(struct songlist));
-		album->songs->name = trackname;
+		strncpy(album->songs->name,trackname, STRN_SIZE*sizeof(char));
 		album->songs->next = NULL;
 		return;
 	}
@@ -233,7 +213,7 @@ void add_song(struct st_album *album, char *trackname)
 		for(np = album->songs; np->next != NULL; np = np->next);
 
 	np->next = (struct songlist *) malloc(sizeof(struct songlist));
-	np->next->name = trackname;
+	strncpy(np->next->name, trackname, STRN_SIZE*sizeof(char));
 	np->next->next = NULL;
 
 	return;
