@@ -15,8 +15,10 @@ char* strip_nl(char *str)
 	return str;
 }
 
+#ifdef FRONTEND_NCURSES
 void destroy_menu_params(menu_parameters params)
 {
 	free(params->list);
 	free(params);
 }
+#endif

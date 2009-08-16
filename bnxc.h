@@ -44,6 +44,7 @@ struct nlist {
 	char name[STRN_SIZE];
 };
 
+#ifdef FRONTEND_NCURSES
 typedef struct menu_parameters_str {
 	char** list;
 	unsigned int list_len;
@@ -61,6 +62,7 @@ typedef struct menu_parameters_str {
 	unsigned int height;
 	unsigned int width;
 } *menu_parameters;
+#endif
 
 /* FOUND IN utils.c */
 char *strip_nl();
