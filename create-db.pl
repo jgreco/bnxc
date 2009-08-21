@@ -8,6 +8,7 @@ while(<IN>) {
 	@line = split(/\//);
 	if($album eq @line[1]) {
 		print @line[2];
+		print $_;
 	}
 	else {
 		$artist = @line[0];
@@ -19,5 +20,6 @@ while(<IN>) {
 		print $album;
 		print "\n";
 		print @line[2];
+		print $_;
 	}
 }

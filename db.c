@@ -14,6 +14,7 @@ static unsigned int hash(char *s);
 int read_db(char *filename)
 {
 	char line[LINEMAX];
+	char path[LINEMAX];
 	FILE *in = fopen(filename, "r");
 	if(in == NULL)
 	{
@@ -40,7 +41,10 @@ int read_db(char *filename)
 		while(fgets(line, LINEMAX, in) != NULL)
 		{
 			if(line[0] != '\n')
-				add_song(curr_album, strip_nl(line));
+			{
+				fgets(path, LINEMAX, in);
+				add_song(curr_album, strip_nl(line), strip_nl(path));
+			}
 			else
 				break;
 		}
@@ -197,7 +201,7 @@ struct st_album *add_album(struct st_artist *artist, char *album_name)
 	return (struct st_album *)(new->contents);
 }
 
-void add_song(struct st_album *album, char *trackname)
+void add_song(struct st_album *album, char *trackname, char *path)
 {
 	struct songlist *np = album->songs;
 	album->num_songs++;
@@ -206,6 +210,7 @@ void add_song(struct st_album *album, char *trackname)
 	{
 		album->songs = (struct songlist *) malloc(sizeof(struct songlist));
 		strncpy(album->songs->name,trackname, STRN_SIZE*sizeof(char));
+		strncpy(album->songs->path,path, STRN_SIZE*sizeof(char));
 		album->songs->next = NULL;
 		return;
 	}
@@ -214,6 +219,7 @@ void add_song(struct st_album *album, char *trackname)
 
 	np->next = (struct songlist *) malloc(sizeof(struct songlist));
 	strncpy(np->next->name, trackname, STRN_SIZE*sizeof(char));
+	strncpy(np->next->path, path, STRN_SIZE*sizeof(char));
 	np->next->next = NULL;
 
 	return;

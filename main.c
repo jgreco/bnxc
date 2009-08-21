@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 #endif
 #ifdef FRONTEND_NCURSES
 /* START NCURSES STUFF */
-	setlocale(LC_CTYPE, "");  /* make sure we display UTF-8 crap proper */
+	setlocale(LC_CTYPE, "");  /* make sure we display UTF-8 crap properly */
 
 	initscr();  /* start ncurses */
 	raw();  /* enable raw keyboard input */
@@ -53,7 +53,6 @@ int main(int argc, char* argv[])
 
 	dump_db();
 
-printf("exiting\n");
 	return 0;
 #endif
 

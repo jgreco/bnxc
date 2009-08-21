@@ -23,6 +23,7 @@
 
 struct songlist {
 	char name[STRN_SIZE];
+	char path[LINEMAX];
 	struct songlist *next;
 };
 
@@ -76,7 +77,7 @@ void dump_db();
 struct nlist *lookup(char *s);
 struct st_artist *add_artist(char *artist_name);
 struct st_album *add_album(struct st_artist *artist, char *album_name);
-void add_song(struct st_album *album, char *trackname);
+void add_song(struct st_album *album, char *trackname, char *path);
 char** get_artist_list();
 char** get_album_list(struct st_artist *artist);
 char** get_track_list(struct st_album *album);
