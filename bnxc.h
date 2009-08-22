@@ -21,29 +21,29 @@
 #define LINEMAX 1024
 #define STRN_SIZE 256
 
-struct songlist {
+typedef struct songlist {
 	char name[STRN_SIZE];
 	char path[LINEMAX];
 	struct songlist *next;
-};
+} *track;
 
-struct st_album {
+typedef struct st_album {
 	char name[STRN_SIZE];
 	struct songlist *songs;
 	int num_songs;
-};
+} *album;
 
-struct st_artist {
+typedef struct st_artist {
 	char name[STRN_SIZE];
 	struct nlist *albums;
 	int num_albums;
-};
+} *artist;
 
-struct nlist {
+typedef struct nlist {
 	struct nlist *next;
 	void *contents;
 	char name[STRN_SIZE];
-};
+} *list;
 
 #ifdef FRONTEND_NCURSES
 typedef struct menu_parameters_str {
@@ -74,29 +74,24 @@ void destroy_menu_params(menu_parameters params);
 unsigned int num_artists;
 int read_db(char *filename);
 void dump_db();
-struct nlist *lookup(char *s);
-struct st_artist *add_artist(char *artist_name);
-struct st_album *add_album(struct st_artist *artist, char *album_name);
-void add_song(struct st_album *album, char *trackname, char *path);
-char** get_artist_list();
-char** get_album_list(struct st_artist *artist);
-char** get_track_list(struct st_album *album);
-#ifndef FRONTEND_NCURSES  /*only needed/wanted for the limited interface */
-	void delete_album(struct st_artist *artist, char *album);
-#endif
 
+list lookup(char *s);
+
+artist add_artist(char *artist_name);
+album add_album(artist art, char *album_name);
+void add_song(album alb, char *trackname, char *path);
+
+char** get_artist_list();
+char** get_album_list(artist art);
+char** get_track_list(album alb);
 
 
 #ifdef FRONTEND_NCURSES
 	void ninterface();
-	int nmenu();
+	int nmenu(menu_parameters params);
 #endif
 #ifndef FRONTEND_NCURSES
-	void min_print_usage();
-	void min_list_reg();
-	void min_list_del();
-	void min_add_alb();
-	int menu(char* list[], unsigned int list_len, char *title, char* commands, char* entered);
+
 #endif
 
 #ifdef XMMS2
@@ -107,9 +102,9 @@ char** get_track_list(struct st_album *album);
 
 	char *collection_path;
 
-	void player_add_track(char *artist, char *album, char *track);
-	void player_add_album(struct st_artist *artist, struct st_album *album);
-	void player_add_artist(struct st_artist *artist);
+	void player_add_track(char *artist, char *album, char *song);
+	void player_add_album(artist art, album alb);
+	void player_add_artist(artist art);
 
 	void player_clear_playlist();
 	void player_play();

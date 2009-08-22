@@ -19,7 +19,7 @@ void ninterface()
 
 	char *sections[] = {"Artists", "Albums", "Tracks" };  /* Section titles, used in the menu */
 
-	struct st_artist *artist;
+	artist art;
 
 	int art_choice, alb_choice, trak_choice;
 
@@ -53,21 +53,21 @@ void ninterface()
 				player_clear_playlist();
 			}
 
-			artist = ((struct st_artist *)(lookup(artists_menu->list[art_choice])->contents));
+			art = ((artist)(lookup(artists_menu->list[art_choice])->contents));
 
-			player_add_artist(artist);
+			player_add_artist(art);
 
 			player_play();
 		}
 
 		/* ---===[ ALBUMS MENU ]===--- */
 		if(artists_menu->entered == '\n') { /* enter this menu */
-			artist = ((struct st_artist *)(lookup(artists_menu->list[art_choice])->contents));
+			art = ((artist)(lookup(artists_menu->list[art_choice])->contents));
 
 			albums_menu = (menu_parameters)malloc(sizeof(struct menu_parameters_str));
-			albums_menu->list = get_album_list(artist);
-			albums_menu->list_len = artist->num_albums;
-			albums_menu->title = artist->name;
+			albums_menu->list = get_album_list(art);
+			albums_menu->list_len = art->num_albums;
+			albums_menu->title = art->name;
 			albums_menu->sections = sections;
 			albums_menu->num_sections = 3;
 			albums_menu->curr_section = 2;
@@ -84,39 +84,39 @@ void ninterface()
 					break;
 
 				if(albums_menu->entered == 'a' || albums_menu->entered == 'A')  { /* play an album (XMMS2) */
-					struct st_album *album;
-					struct nlist *np;
+					album alb;
+					list np;
 
-					for(np = artist->albums; np != NULL; np = np->next)
+					for(np = art->albums; np != NULL; np = np->next)
 						if(strcmp(albums_menu->list[alb_choice], np->name) == 0)
 							break;
 
-					album = (struct st_album *) np->contents;
+					alb = (album)np->contents;
 
 					if(albums_menu->entered == 'A') {
 						player_stop();
 						player_clear_playlist();
 					}
 
-					player_add_album(artist, album);
+					player_add_album(art, alb);
 					player_play();
 				}
 
 				/* ---===[ TRACKS MENU ]===--- */
 				if(albums_menu->entered == '\n') { /* enter this menu */
-					struct st_album *album;
-					struct nlist *np;
+					album alb;
+					list np;
 
-					for(np = artist->albums; np != NULL; np = np->next)
+					for(np = art->albums; np != NULL; np = np->next)
 						if(strcmp(albums_menu->list[alb_choice], np->name) == 0)
 							break;
 
-					album = (struct st_album *) np->contents;
+					alb = (album)np->contents;
 
 					tracks_menu = (menu_parameters)malloc(sizeof(struct menu_parameters_str));
-					tracks_menu->list = get_track_list(album);
-					tracks_menu->list_len = album->num_songs;
-					tracks_menu->title = album->name;
+					tracks_menu->list = get_track_list(alb);
+					tracks_menu->list_len = alb->num_songs;
+					tracks_menu->title = alb->name;
 					tracks_menu->sections = sections;
 					tracks_menu->num_sections = 3;
 					tracks_menu->curr_section = 3;
@@ -136,7 +136,7 @@ void ninterface()
 								player_clear_playlist();
 							}
 
-							player_add_track(artist->name, album->name, tracks_menu->list[trak_choice]);
+							player_add_track(art->name, alb->name, tracks_menu->list[trak_choice]);
 							player_play();
 						}
 
@@ -258,4 +258,3 @@ int nmenu(menu_parameters params)
 	}
 }
 #endif
-

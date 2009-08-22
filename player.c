@@ -7,11 +7,11 @@
 #include "config.h"
 
 #ifdef XMMS2
-void player_add_track(char *artist, char *album, char *track)
+void player_add_track(char *art, char *alb, char *song)
 {
 	char filename[LINEMAX];
 
-	snprintf(filename, LINEMAX, "file://%s/%s/%s/%s",collection_path, artist, album, track);
+	snprintf(filename, LINEMAX, "file://%s/%s/%s/%s",collection_path, art, alb, song);
 
 	result = xmmsc_playlist_add_url(connection, NULL, filename);
 	xmmsc_result_wait(result);
@@ -19,23 +19,23 @@ void player_add_track(char *artist, char *album, char *track)
 	return;
 }
 
-void player_add_album(struct st_artist *artist, struct st_album *album)
+void player_add_album(artist art, album alb)
 {
 	int i;
-	char **tracks = get_track_list(album);
+	char **tracks = get_track_list(alb);
 
-	for(i=0; i<album->num_songs; i++)
-		player_add_track(artist->name, album->name, tracks[i]);
+	for(i=0; i<alb->num_songs; i++)
+		player_add_track(art->name, alb->name, tracks[i]);
 
 	return;
 }
 
-void player_add_artist(struct st_artist *artist)
+void player_add_artist(artist art)
 {
-	struct nlist *np;
+	list np;
 
-	for(np = artist->albums; np != NULL; np = np->next)
-		player_add_album(artist, (struct st_album *)(np->contents));
+	for(np = art->albums; np != NULL; np = np->next)
+		player_add_album(art, (album)(np->contents));
 
 	return;
 }
