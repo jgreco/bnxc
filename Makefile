@@ -8,9 +8,12 @@ OBJECTS :=  $(addprefix ${OBJDIR}/,${OBJECTS})
 bnxc: $(OBJECTS)
 	$(CC) $(CFLAGS) $(LIBS) $(OBJECTS) -o bnxc
 
+test: $(OBJECTS)
+	$(CC) $(CFLAGS) $(LIBS) $(OBJECTS) -o test
+
 ${OBJDIR}/%.o : %.c
 	@if [ ! -d $(OBJDIR) ]; then mkdir $(OBJDIR); fi #create directory if it doesn't exist
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(OBJECTS) bnxc
+	rm -f $(OBJECTS) bnxc test
