@@ -102,8 +102,8 @@ char** get_track_list(album alb);
 
 	char *collection_path;
 
-	void player_add_track(char *artist, char *album, char *song);
-	void player_add_album(artist art, album alb);
+	void player_add_track(track song);
+	void player_add_album(album alb);
 	void player_add_artist(artist art);
 
 	void player_clear_playlist();

@@ -98,13 +98,14 @@ void ninterface()
 						player_clear_playlist();
 					}
 
-					player_add_album(art, alb);
+					player_add_album(alb);
 					player_play();
 				}
 
 				/* ---===[ TRACKS MENU ]===--- */
 				if(albums_menu->entered == '\n') { /* enter this menu */
 					album alb;
+					track song;
 					list np;
 
 					for(np = art->albums; np != NULL; np = np->next)
@@ -136,7 +137,10 @@ void ninterface()
 								player_clear_playlist();
 							}
 
-							player_add_track(art->name, alb->name, tracks_menu->list[trak_choice]);
+							for(song = alb->songs; song != NULL; song = song->next)
+								if(strcmp(tracks_menu->list[trak_choice], song->name) == 0)
+									break;
+							player_add_track(song);
 							player_play();
 						}
 

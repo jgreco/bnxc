@@ -7,11 +7,11 @@
 #include "config.h"
 
 #ifdef XMMS2
-void player_add_track(char *art, char *alb, char *song)
+void player_add_track(track song)
 {
 	char filename[LINEMAX];
 
-	snprintf(filename, LINEMAX, "file://%s/%s/%s/%s",collection_path, art, alb, song);
+	snprintf(filename, LINEMAX, "file://%s/%s",collection_path, song->path);
 
 	result = xmmsc_playlist_add_url(connection, NULL, filename);
 	xmmsc_result_wait(result);
@@ -19,13 +19,12 @@ void player_add_track(char *art, char *alb, char *song)
 	return;
 }
 
-void player_add_album(artist art, album alb)
+void player_add_album(album alb)
 {
-	int i;
-	char **tracks = get_track_list(alb);
+	track np;
 
-	for(i=0; i<alb->num_songs; i++)
-		player_add_track(art->name, alb->name, tracks[i]);
+	for(np = alb->songs; np != NULL; np = np->next)
+		player_add_track(np);
 
 	return;
 }
@@ -35,7 +34,7 @@ void player_add_artist(artist art)
 	list np;
 
 	for(np = art->albums; np != NULL; np = np->next)
-		player_add_album(art, (album)(np->contents));
+		player_add_album((album)(np->contents));
 
 	return;
 }
