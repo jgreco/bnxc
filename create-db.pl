@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-open(IN, "./files");
+open(IN, "./tmp");
 
 $album="";
 

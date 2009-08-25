@@ -1,9 +1,9 @@
 #!/bin/bash
 
-rm -f files
+rm -f tmp
 
-for i in $COLLECTION/*/*/*.{mp3,ogg,flac}; do echo $i | sed s#$COLLECTION/## >> files; done;
+for i in $COLLECTION/*/*/*.{mp3,ogg,flac}; do echo $i | sed s#$COLLECTION/## >> tmp; done;
 
 ./create-db.pl > default.db
 
-rm files
+rm tmp
