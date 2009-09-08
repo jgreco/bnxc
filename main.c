@@ -8,10 +8,16 @@
 
 int main(int argc, char* argv[])
 {
-	if(!read_db(getenv("BNXC")))
+	char *db_file = getenv("BNXC");
+	if(db_file == NULL)
 	{
-		fprintf(stderr, "failed to read the database file: %s\n", getenv("BNXC"));
-		return -1;
+		fprintf(stderr, "failed to read the enviromental variable: BNXC\n");
+		exit(EXIT_FAILURE);
+	}
+	if(!read_db(db_file))
+	{
+		fprintf(stderr, "failed to read the database file: %s\n", db_file);
+		exit(EXIT_FAILURE);
 	}
 
 #ifdef XMMS2
