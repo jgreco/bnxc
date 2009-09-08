@@ -53,16 +53,16 @@ int main(int argc, char* argv[])
 
 	ninterface(); /* start the interactive ncurses interface */
 
-	endwin();  /* cleanup */
+	endwin();  /* cleanup ncurses */
 
-	dump_db();
+	dump_db();  /* cleanup db */
 
-	return 0;
+	exit(EXIT_SUCCESS);
 #endif
 
 #ifndef FRONTEND_NCURSES
 	printf("NCurses interface was not compiled in.\n");
 
-	return 1;
+	exit(EXIT_FAILURE);
 #endif
 }
