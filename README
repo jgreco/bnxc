@@ -5,7 +5,7 @@ README for bnxc
   (http://wiki.xmms2.xmms.se/wiki/Main_Page) client with an Ncurses
   interface.  It includes scripts that generate a database file
   (conforming to the format defined in the assignment) from a directory
-  defined in the enviromental variable $BNXC.  Usage is detailed
+  defined in the enviromental variable $COLLECTION.  Usage is detailed
   later in this file.
 
   It requires that ncurses development and xmms2 development packages
@@ -27,7 +27,7 @@ bnxc usage.
   collection, NOT media file meta-data.
 
 
-  Before the every run the ENV variable BNXC should be set to the *full* path
+  Before the every run the ENV variable COLLECTION should be set to the *full* path
   of the music collection you want bnxc to use.
 
   Before the first run the script 'update-collection.sh' should be run.  This
