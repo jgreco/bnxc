@@ -9,13 +9,11 @@
 int main(int argc, char* argv[])
 {
 	char *db_file = getenv("BNXC");
-	if(db_file == NULL)
-	{
+
+	if(db_file == NULL) {
 		fprintf(stderr, "failed to read the enviromental variable: BNXC\n");
 		exit(EXIT_FAILURE);
-	}
-	if(!read_db(db_file))
-	{
+	} else if(!read_db(db_file)) {
 		fprintf(stderr, "failed to read the database file: %s\n", db_file);
 		exit(EXIT_FAILURE);
 	}
@@ -23,14 +21,17 @@ int main(int argc, char* argv[])
 #ifdef XMMS2
 /* START XMMS2 STUFF */
 	connection = xmmsc_init("bnxc");
+
 	if(!connection) {
 		fprintf(stderr, "terrible terrible things just happened\n");
 		exit(EXIT_FAILURE);
 	}
+
 	if(!xmmsc_connect(connection, getenv("XMMS_PATH"))) {
 		fprintf(stderr, "Connection to xmms2d failed: %s\n", xmmsc_get_last_error(connection));
 		exit(EXIT_FAILURE);
 	}
+
 	collection_path = getenv("COLLECTION");
 #endif
 #ifdef FRONTEND_NCURSES

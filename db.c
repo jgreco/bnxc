@@ -16,8 +16,8 @@ int read_db(char *filename)
 	char line[LINEMAX];
 	char path[LINEMAX];
 	FILE *in = fopen(filename, "r");
-	if(in == NULL)
-	{
+
+	if(in == NULL) {
 		printf("could not open database.\n");
 		return 0;
 	}
@@ -38,14 +38,11 @@ int read_db(char *filename)
 		fgets(line, LINEMAX, in);
 		curr_album = add_album(curr_artist, strip_nl(line));
 
-		while(fgets(line, LINEMAX, in) != NULL)
-		{
-			if(line[0] != '\n')
-			{
+		while(fgets(line, LINEMAX, in) != NULL) {
+			if(line[0] != '\n') {
 				fgets(path, LINEMAX, in);
 				add_song(curr_album, strip_nl(line), strip_nl(path));
-			}
-			else
+			} else
 				break;
 		}
 	}
@@ -61,20 +58,17 @@ void dump_db()
 	int i;
 
 	for(i=0; i<HASHSIZE; i++)
-		if(hashtable[i] != NULL)
-		{
+		if(hashtable[i] != NULL) {
 			list np;
 
-			for(np = hashtable[i]; np != NULL; np = np->next)
-			{
+			for(np = hashtable[i]; np != NULL; np = np->next) {
 				artist at;
 				list n_alb;
 				list temp;
 
 				at = (artist)(np->contents);
 
-				for(n_alb = at->albums; n_alb != NULL; n_alb = n_alb->next)  /* for all the albums */
-				{
+				for(n_alb = at->albums; n_alb != NULL; n_alb = n_alb->next) {  /* for all the albums */
 					album alb;
 					track sng;
 					track temp;
@@ -82,8 +76,8 @@ void dump_db()
 					alb = (album)(n_alb->contents);
 
 					sng = alb->songs;
-					while(sng != NULL)  /* free all the songs */
-					{
+
+					while(sng != NULL) {  /* free all the songs */
 						temp = sng;
 						sng = sng->next;
 						free(temp);
@@ -91,8 +85,8 @@ void dump_db()
 				}
 
 				n_alb = at->albums;
-				while(n_alb != NULL)
-				{
+
+				while(n_alb != NULL) {
 					temp = n_alb;
 					n_alb = n_alb->next;
 					free(temp->contents);
@@ -101,15 +95,12 @@ void dump_db()
 			}
 		}
 
-	for(i=0; i<HASHSIZE; i++)
-	{
-		if(hashtable[i] != NULL)
-		{
+	for(i=0; i<HASHSIZE; i++) {
+		if(hashtable[i] != NULL) {
 			list temp;
 			list np = hashtable[i];
 
-			while(np != NULL)
-			{
+			while(np != NULL) {
 				temp = np;
 				np = np->next;
 				free(temp->contents);
@@ -138,6 +129,7 @@ list lookup(char *s)
 	for(np = hashtable[hash(s)]; np != NULL; np = np->next)
 		if(strcmp(s, np->name) == 0)
 			return np; /* found */
+
 	return NULL; /* not found */
 }
 
@@ -150,11 +142,11 @@ artist add_artist(char *artist_name)
 		np = (list) malloc(sizeof(*np));
 		np->contents = (artist) malloc(sizeof(struct st_artist));
 
-		if(np == NULL || np->contents==NULL) /* create the artist */
-		{
+		if(np == NULL || np->contents==NULL) /* create the artist */ {
 			fprintf(stderr, "failled to allocate artist\n");
 			exit(EXIT_FAILURE); /* return if crap broke */
 		}
+
 		strncpy(np->name,artist_name, STRN_SIZE*sizeof(char));
 
 		hashval = hash(artist_name);
@@ -183,11 +175,12 @@ album add_album(artist art, char *album_name)
 
 	new = (list) malloc(sizeof(struct nlist));
 	new->contents = (album) malloc(sizeof(struct st_album));
-	if(new == NULL || new->contents == NULL)
-	{
+
+	if(new == NULL || new->contents == NULL) {
 		fprintf(stderr, "failed to allocate album\n");
 		exit(EXIT_FAILURE); /* crap broke. */
 	}
+
 	strncpy(new->name, album_name, STRN_SIZE*sizeof(char));
 
 	new->next = art->albums;
@@ -206,15 +199,13 @@ void add_song(album alb, char *trackname, char *path)
 	track np = alb->songs;
 	alb->num_songs++;
 
-	if(np == NULL)
-	{
+	if(np == NULL) {
 		alb->songs = (track) malloc(sizeof(struct songlist));
 		strncpy(alb->songs->name,trackname, STRN_SIZE*sizeof(char));
 		strncpy(alb->songs->path,path, STRN_SIZE*sizeof(char));
 		alb->songs->next = NULL;
 		return;
-	}
-	else
+	} else
 		for(np = alb->songs; np->next != NULL; np = np->next);
 
 	np->next = (track) malloc(sizeof(struct songlist));
@@ -233,12 +224,10 @@ char** get_artist_list()
 	char** str_list = malloc(sizeof(char*)*num_artists);
 
 	for(i=0; i<HASHSIZE; i++)
-		if(hashtable[i] != NULL)
-		{
+		if(hashtable[i] != NULL) {
 			list np;
 
-			for(np = hashtable[i]; np != NULL; np = np->next)
-			{
+			for(np = hashtable[i]; np != NULL; np = np->next) {
 				str_list[x++] = np->name;
 			}
 		}
@@ -255,6 +244,7 @@ char** get_album_list(artist art)
 	list np;
 
 	int i=0;
+
 	for(np = art->albums; np != NULL; np = np->next)
 		str_list[i++] = np->name;
 
@@ -268,6 +258,7 @@ char** get_track_list(album alb)
 	track np;
 
 	int i=0;
+
 	for(np = alb->songs; np != NULL; np = np->next)
 		str_list[i++] = np->name;
 

@@ -41,8 +41,7 @@ void ninterface()
 		art_choice = nmenu(artists_menu);  /* draw artist menu */
 		artists_menu->select = art_choice;
 
-		if(artists_menu->entered == 'q') /* exit artist menu (and function) */
-		{
+		if(artists_menu->entered == 'q') {  /* exit artist menu (and function) */
 			destroy_menu_params(artists_menu);
 			return;
 		}
@@ -140,6 +139,7 @@ void ninterface()
 							for(song = alb->songs; song != NULL; song = song->next)
 								if(strcmp(tracks_menu->list[trak_choice], song->name) == 0)
 									break;
+
 							player_add_track(song);
 							player_play();
 						}
@@ -198,6 +198,7 @@ int nmenu(menu_parameters params)
 			for(y=0; y<strlen(params->sections[i]); y++)
 				mvwprintw(menu_win, y+offset, i, "%c", params->sections[i][y]);
 		}
+
 		for(i=0; i<params->curr_section; i++) {
 			int y;
 			for(y=0; y<LINES; y++) {
@@ -207,6 +208,7 @@ int nmenu(menu_parameters params)
 					mvwchgat(menu_win, y, i, 1, COLOR_PAIR(2), 2, dumb);
 			}
 		}
+
 		for(i=params->curr_section; i<params->num_sections; i++) {
 			unsigned int y = 0;
 			int offset = (params->height / 2) - (strlen(params->sections[i]) / 2);
@@ -214,6 +216,7 @@ int nmenu(menu_parameters params)
 			for(y=0; y<strlen(params->sections[i]); y++)
 				mvwprintw(menu_win, y+offset, COLS-(params->num_sections-i), "%c", params->sections[i][y]);
 		}
+
 		for(i=params->curr_section; i<params->num_sections; i++) {
 			int y;
 			for(y=0; y<LINES; y++)
