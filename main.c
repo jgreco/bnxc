@@ -6,8 +6,6 @@
 #include "bnxc.h"
 #include "config.h"
 
-FILE *debug;
-
 int main(int argc, char* argv[])
 {
 	if(!read_db(getenv("BNXC")))
