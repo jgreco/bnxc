@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 	raw();  /* enable raw keyboard input */
 	keypad(stdscr, TRUE);  /* more keyboard input stuffs */
 	noecho();  /* don't echo stdin to stdout */
-	curs_set(0);  /* invisible cursor (maybe we should just always put the cursor on the player?) */
+	curs_set(0);  /* invisible cursor */
 	start_color();
 	use_default_colors();
 
