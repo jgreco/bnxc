@@ -76,7 +76,7 @@ typedef struct menu_parameters_str {
 /* FOUND IN db.c */
 	unsigned int num_artists;  /*count of how many artists are in the database */
 	int read_db(char *filename);  /*read in the database from a file */
-	void dump_db();  /* dump the database to a file */
+	void dump_db();  /* free up the database */
 
 	list lookup(char *s);  /* look up key (string) in hashtable */
 
