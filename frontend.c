@@ -31,7 +31,7 @@ void ninterface()
 	artists_menu->sections = sections;
 	artists_menu->num_sections = 3;
 	artists_menu->curr_section = 1;
-	artists_menu->commands = "aA ";
+	artists_menu->commands = COMMANDS;
 	artists_menu->select = 0;
 	artists_menu->scroll = 0;
 	artists_menu->height = LINES;
@@ -41,10 +41,10 @@ void ninterface()
 		art_choice = nmenu(artists_menu);  /* draw artist menu */
 		artists_menu->select = art_choice;
 
-		if(artists_menu->entered == 'q')  /* exit artist menu (and function) */
+		if(artists_menu->entered == QUIT_BACK)  /* exit artist menu (and function) */
 			break;
-		else if(artists_menu->entered == 'a' || artists_menu->entered == 'A') { /* play an artist (XMMS2) */
-			if(artists_menu->entered == 'A') {
+		else if(artists_menu->entered == APPEND_PLAYLIST || artists_menu->entered == REPLACE_PLAYLIST) { /* play an artist (XMMS2) */
+			if(artists_menu->entered == REPLACE_PLAYLIST) {
 				player_stop();
 				player_clear_playlist();
 			}
@@ -54,7 +54,7 @@ void ninterface()
 			player_add_artist(art);
 
 			player_play();
-		} else if(artists_menu->entered == ' ')
+		} else if(artists_menu->entered == TOGGLE_PLAY_PAUSE)
 			player_toggle();
 
 		/* ---===[ ALBUMS MENU ]===--- */
@@ -68,7 +68,7 @@ void ninterface()
 			albums_menu->sections = sections;
 			albums_menu->num_sections = 3;
 			albums_menu->curr_section = 2;
-			albums_menu->commands = "aA ";
+			albums_menu->commands = COMMANDS;
 			albums_menu->select = 0;
 			albums_menu->scroll = 0;
 			albums_menu->height = LINES;
@@ -77,9 +77,9 @@ void ninterface()
 			while(1) {
 				alb_choice = nmenu(albums_menu);  /* draw album menu */
 
-				if(albums_menu->entered == KEY_LEFT || albums_menu->entered == 'q') /* exit albums menu */
+				if(albums_menu->entered == KEY_LEFT || albums_menu->entered == QUIT_BACK) /* exit albums menu */
 					break;
-				else if(albums_menu->entered == 'a' || albums_menu->entered == 'A')  { /* play an album (XMMS2) */
+				else if(albums_menu->entered == APPEND_PLAYLIST || albums_menu->entered == REPLACE_PLAYLIST)  { /* play an album (XMMS2) */
 					album alb;
 					list np;
 
@@ -89,14 +89,14 @@ void ninterface()
 
 					alb = (album)np->contents;
 
-					if(albums_menu->entered == 'A') {
+					if(albums_menu->entered == REPLACE_PLAYLIST) {
 						player_stop();
 						player_clear_playlist();
 					}
 
 					player_add_album(alb);
 					player_play();
-				} else if(albums_menu->entered == ' ')
+				} else if(albums_menu->entered == TOGGLE_PLAY_PAUSE)
 					player_toggle();
 
 				/* ---===[ TRACKS MENU ]===--- */
@@ -118,7 +118,7 @@ void ninterface()
 					tracks_menu->sections = sections;
 					tracks_menu->num_sections = 3;
 					tracks_menu->curr_section = 3;
-					tracks_menu->commands = "aA ";
+					tracks_menu->commands = COMMANDS;
 					tracks_menu->select = 0;
 					tracks_menu->scroll = 0;
 					tracks_menu->height = LINES;
@@ -128,8 +128,8 @@ void ninterface()
 						trak_choice = nmenu(tracks_menu);  /* draw track menu */
 
 						/* play a track (XMMS2) */
-						if(tracks_menu->entered == 'a' || tracks_menu->entered == 'A') { /*|| entered == '\n')*/
-							if(tracks_menu->entered == 'A') {
+						if(tracks_menu->entered == APPEND_PLAYLIST || tracks_menu->entered == REPLACE_PLAYLIST) { /*|| entered == '\n')*/
+							if(tracks_menu->entered == REPLACE_PLAYLIST) {
 								player_stop();
 								player_clear_playlist();
 							}
@@ -140,9 +140,9 @@ void ninterface()
 
 							player_add_track(song);
 							player_play();
-						} else if(tracks_menu->entered == ' ')
+						} else if(tracks_menu->entered == TOGGLE_PLAY_PAUSE)
 							player_toggle();
-						else if(tracks_menu->entered == KEY_LEFT || tracks_menu->entered == 'q') /* exit tracks menu */
+						else if(tracks_menu->entered == KEY_LEFT || tracks_menu->entered == QUIT_BACK) /* exit tracks menu */
 							break;
 					} /* drop out of tracks here */
 
@@ -232,8 +232,8 @@ int nmenu(menu_parameters params)
 		/* =====HANDLE INPUT===== */
 		key = getch();
 		switch(key) {
-			case 'q':
-				params->entered = 'q';  /* q *always* quits, not a custom command */
+			case QUIT_BACK:
+				params->entered = QUIT_BACK;  /* q *always* quits, not a custom command */
 				return 0;
 			case KEY_UP: case 'k':  /* move selection up */
 				if(params->select > 0)
