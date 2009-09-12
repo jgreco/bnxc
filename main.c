@@ -46,10 +46,10 @@ int main(int argc, char* argv[])
 	start_color();
 	use_default_colors();
 
-	/*           forground   ,background */
-	init_pair(1, COLOR_YELLOW,COLOR_RED);  /*color pair for the selected line */
-	init_pair(2, COLOR_WHITE, COLOR_CYAN);  /*color pair for "inactive sections" */
-	init_pair(3, COLOR_WHITE, COLOR_BLUE);  /*color pair for active sections and the title */
+	/*           forground   , background */
+	init_pair(1, COLOR_YELLOW, COLOR_RED);  /*color pair for the selected line */
+	init_pair(2, COLOR_WHITE,  COLOR_CYAN);  /*color pair for "inactive sections" */
+	init_pair(3, COLOR_WHITE,  COLOR_BLUE);  /*color pair for active sections and the title */
 	assume_default_colors(COLOR_WHITE, COLOR_BLACK);  /*default to white on black */
 
 	ninterface(); /* start the interactive ncurses interface */
