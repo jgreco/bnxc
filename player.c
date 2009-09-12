@@ -78,6 +78,29 @@ void player_pause()
 	return;
 }
 
+void player_toggle()
+{
+	int32_t status;
+
+	result = xmmsc_playback_status(connection);
+	xmmsc_result_wait(result);
+
+	value = xmmsc_result_get_value(result);
+
+	if(xmmsv_get_error(value, &errbuf))
+		fprintf(stderr, "%s", errbuf);
+
+	if(!xmmsv_get_int(value, &status))
+		fprintf(stderr, "something broke");
+
+	if(status == XMMS_PLAYBACK_STATUS_PLAY)
+		player_pause();
+	else
+		player_play();
+
+	return;
+}
+
 void player_stop()
 {
 	result = xmmsc_playback_stop(connection);

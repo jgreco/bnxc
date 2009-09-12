@@ -110,5 +110,6 @@ typedef struct menu_parameters_str {
 	void player_clear_playlist();
 	void player_play();
 	void player_pause();
+	void player_toggle();
 	void player_stop();
 #endif
