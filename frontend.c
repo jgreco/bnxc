@@ -31,7 +31,7 @@ void ninterface()
 	artists_menu->sections = sections;
 	artists_menu->num_sections = 3;
 	artists_menu->curr_section = 1;
-	artists_menu->commands = "aA";
+	artists_menu->commands = "aA ";
 	artists_menu->select = 0;
 	artists_menu->scroll = 0;
 	artists_menu->height = LINES;
@@ -41,11 +41,8 @@ void ninterface()
 		art_choice = nmenu(artists_menu);  /* draw artist menu */
 		artists_menu->select = art_choice;
 
-		if(artists_menu->entered == 'q') {  /* exit artist menu (and function) */
-			destroy_menu_params(artists_menu);
-			return;
-		}
-
+		if(artists_menu->entered == 'q')  /* exit artist menu (and function) */
+			break;
 		else if(artists_menu->entered == 'a' || artists_menu->entered == 'A') { /* play an artist (XMMS2) */
 			if(artists_menu->entered == 'A') {
 				player_stop();
@@ -57,10 +54,11 @@ void ninterface()
 			player_add_artist(art);
 
 			player_play();
-		}
+		} else if(artists_menu->entered == ' ')
+			player_toggle();
 
 		/* ---===[ ALBUMS MENU ]===--- */
-		if(artists_menu->entered == '\n') { /* enter this menu */
+		else if(artists_menu->entered == '\n') { /* enter this menu */
 			art = ((artist)(lookup(artists_menu->list[art_choice])->contents));
 
 			albums_menu = (menu_parameters)malloc(sizeof(struct menu_parameters_str));
@@ -70,7 +68,7 @@ void ninterface()
 			albums_menu->sections = sections;
 			albums_menu->num_sections = 3;
 			albums_menu->curr_section = 2;
-			albums_menu->commands = "aA";
+			albums_menu->commands = "aA ";
 			albums_menu->select = 0;
 			albums_menu->scroll = 0;
 			albums_menu->height = LINES;
@@ -81,8 +79,7 @@ void ninterface()
 
 				if(albums_menu->entered == KEY_LEFT || albums_menu->entered == 'q') /* exit albums menu */
 					break;
-
-				if(albums_menu->entered == 'a' || albums_menu->entered == 'A')  { /* play an album (XMMS2) */
+				else if(albums_menu->entered == 'a' || albums_menu->entered == 'A')  { /* play an album (XMMS2) */
 					album alb;
 					list np;
 
@@ -99,10 +96,11 @@ void ninterface()
 
 					player_add_album(alb);
 					player_play();
-				}
+				} else if(albums_menu->entered == ' ')
+					player_toggle();
 
 				/* ---===[ TRACKS MENU ]===--- */
-				if(albums_menu->entered == '\n') { /* enter this menu */
+				else if(albums_menu->entered == '\n') { /* enter this menu */
 					album alb;
 					track song;
 					list np;
@@ -120,7 +118,7 @@ void ninterface()
 					tracks_menu->sections = sections;
 					tracks_menu->num_sections = 3;
 					tracks_menu->curr_section = 3;
-					tracks_menu->commands = "aA";
+					tracks_menu->commands = "aA ";
 					tracks_menu->select = 0;
 					tracks_menu->scroll = 0;
 					tracks_menu->height = LINES;
@@ -142,9 +140,9 @@ void ninterface()
 
 							player_add_track(song);
 							player_play();
-						}
-
-						if(tracks_menu->entered == KEY_LEFT || tracks_menu->entered == 'q') /* exit tracks menu */
+						} else if(tracks_menu->entered == ' ')
+							player_toggle();
+						else if(tracks_menu->entered == KEY_LEFT || tracks_menu->entered == 'q') /* exit tracks menu */
 							break;
 					} /* drop out of tracks here */
 
@@ -154,7 +152,11 @@ void ninterface()
 
 			destroy_menu_params(albums_menu);
 		 }
-	}
+	} /* drop out of artists here */
+
+	destroy_menu_params(artists_menu);
+
+	return;
 }
 
 
