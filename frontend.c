@@ -16,10 +16,12 @@ void ninterface()
 {
 	menu_parameters artists_menu, albums_menu, tracks_menu;
 
-
 	char *sections[] = {"Artists", "Albums", "Tracks" };  /* Section titles, used in the menu */
 
 	artist art;
+	album alb;
+	track song;
+	list np;
 
 	int art_choice, alb_choice, trak_choice;
 
@@ -43,7 +45,7 @@ void ninterface()
 
 		if(artists_menu->entered == QUIT_BACK)  /* exit artist menu (and function) */
 			break;
-		else if(artists_menu->entered == APPEND_PLAYLIST || artists_menu->entered == REPLACE_PLAYLIST) { /* play an artist (XMMS2) */
+		else if(artists_menu->entered == APPEND_PLAYLIST || artists_menu->entered == REPLACE_PLAYLIST) {  /* play an artist (XMMS2) */
 			if(artists_menu->entered == REPLACE_PLAYLIST) {
 				player_stop();
 				player_clear_playlist();
@@ -79,9 +81,12 @@ void ninterface()
 
 				if(albums_menu->entered == KEY_LEFT || albums_menu->entered == QUIT_BACK) /* exit albums menu */
 					break;
-				else if(albums_menu->entered == APPEND_PLAYLIST || albums_menu->entered == REPLACE_PLAYLIST)  { /* play an album (XMMS2) */
-					album alb;
-					list np;
+				else if(albums_menu->entered == APPEND_PLAYLIST || albums_menu->entered == REPLACE_PLAYLIST)  {  /* play an album (XMMS2) */
+					if(albums_menu->entered == REPLACE_PLAYLIST) {
+						player_stop();
+						player_clear_playlist();
+					}
+
 
 					for(np = art->albums; np != NULL; np = np->next)
 						if(strcmp(albums_menu->list[alb_choice], np->name) == 0)
@@ -89,10 +94,6 @@ void ninterface()
 
 					alb = (album)np->contents;
 
-					if(albums_menu->entered == REPLACE_PLAYLIST) {
-						player_stop();
-						player_clear_playlist();
-					}
 
 					player_add_album(alb);
 					player_play();
@@ -101,10 +102,6 @@ void ninterface()
 
 				/* ---===[ TRACKS MENU ]===--- */
 				else if(albums_menu->entered == '\n') { /* enter this menu */
-					album alb;
-					track song;
-					list np;
-
 					for(np = art->albums; np != NULL; np = np->next)
 						if(strcmp(albums_menu->list[alb_choice], np->name) == 0)
 							break;
@@ -128,7 +125,7 @@ void ninterface()
 						trak_choice = nmenu(tracks_menu);  /* draw track menu */
 
 						/* play a track (XMMS2) */
-						if(tracks_menu->entered == APPEND_PLAYLIST || tracks_menu->entered == REPLACE_PLAYLIST) { /*|| entered == '\n')*/
+						if(tracks_menu->entered == APPEND_PLAYLIST || tracks_menu->entered == REPLACE_PLAYLIST) {  /* play a track (XMMS2) */
 							if(tracks_menu->entered == REPLACE_PLAYLIST) {
 								player_stop();
 								player_clear_playlist();
