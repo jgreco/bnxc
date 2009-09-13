@@ -32,6 +32,19 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	connection_async = xmmsc_init("bnxc");
+
+	if(!connection_async) {
+		fprintf(stderr, "terrible terrible things just happened\n");
+		exit(EXIT_FAILURE);
+	}
+
+	if(!xmmsc_connect(connection_async, getenv("XMMS_PATH"))) {
+		fprintf(stderr, "Connection to xmms2d failed: %s\n", xmmsc_get_last_error(connection_async));
+		exit(EXIT_FAILURE);
+	}
+
+
 	collection_path = getenv("COLLECTION");
 #endif
 #ifdef FRONTEND_NCURSES

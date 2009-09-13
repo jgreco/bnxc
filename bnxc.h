@@ -94,9 +94,16 @@ typedef struct menu_parameters_str {
 	int nmenu(menu_parameters params);  /* menu display and input system */
 #endif
 
+/* FOUND IN now_playing.c */
+//#ifdef NOW_PLAYING
+	void now_playing();
+//#endif
+
 /* FOUND IN player.c */
 #ifdef XMMS2
 	xmmsc_connection_t *connection;
+	xmmsc_connection_t *connection_async;
+
 	xmmsc_result_t *result;
 	xmmsv_t *value;
 	const char *errbuf;

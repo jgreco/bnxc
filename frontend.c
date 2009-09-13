@@ -58,6 +58,8 @@ void ninterface()
 			player_play();
 		} else if(artists_menu->entered == TOGGLE_PLAY_PAUSE)
 			player_toggle();
+		else if(artists_menu->entered == NOWPLAYING)
+			now_playing();
 
 		/* ---===[ ALBUMS MENU ]===--- */
 		else if(artists_menu->entered == '\n') { /* enter this menu */
