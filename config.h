@@ -5,7 +5,7 @@
 
 #define FRONTEND_NCURSES
 #define XMMS2
-#define NOW_PLAYING
+#define NOW_PLAYING_SCREEN
 
 #define COMMANDS "aAv "
 

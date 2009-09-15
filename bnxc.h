@@ -95,9 +95,9 @@ typedef struct menu_parameters_str {
 #endif
 
 /* FOUND IN now_playing.c */
-//#ifdef NOW_PLAYING
+#ifdef NOW_PLAYING_SCREEN
 	void now_playing();
-//#endif
+#endif
 
 /* FOUND IN player.c */
 #ifdef XMMS2
