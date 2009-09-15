@@ -1,6 +1,7 @@
 CC = gcc
-CFLAGS = -O2 -Wall -Wextra -Wno-unused-parameter -pedantic -pipe -I/usr/local/include/xmms2 -lxmmsclient-glib -lglib-2.0 -I/usr/include/glib-2.0/ -I/usr/lib64/glib-2.0/include/ -I/usr/include/glib-2.0/glib/ -lpthread
-LIBS = -lxmmsclient -lncursesw
+#modify the CFLAGS variable as needed.  specifically you will probably need to modify the include directory arguments
+CFLAGS = -O2 -Wall -Wextra -Wno-unused-parameter -pedantic -pipe -I/usr/local/include/xmms2 -I/usr/include/glib-2.0/ -I/usr/lib64/glib-2.0/include/ -I/usr/include/glib-2.0/glib/
+LIBS = -lxmmsclient -lncursesw -lxmmsclient-glib -lglib-2.0 -lpthread
 OBJDIR = .build
 OBJECTS = main.o db.o utils.o frontend.o player.o now_playing.o
 OBJECTS :=  $(addprefix ${OBJDIR}/,${OBJECTS})
