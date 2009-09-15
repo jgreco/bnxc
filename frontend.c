@@ -178,6 +178,9 @@ int nmenu(menu_parameters params)
 
 	WINDOW *menu_win;
 
+	params->height = LINES;
+	params->width = COLS;
+
 	if(params->height-1 <= params->list_len)
 		list_height = params->height-1;
 	else
