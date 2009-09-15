@@ -32,19 +32,6 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	connection_async = xmmsc_init("bnxc");
-
-	if(!connection_async) {
-		fprintf(stderr, "terrible terrible things just happened\n");
-		exit(EXIT_FAILURE);
-	}
-
-	if(!xmmsc_connect(connection_async, getenv("XMMS_PATH"))) {
-		fprintf(stderr, "Connection to xmms2d failed: %s\n", xmmsc_get_last_error(connection_async));
-		exit(EXIT_FAILURE);
-	}
-
-
 	collection_path = getenv("COLLECTION");
 #endif
 #ifdef FRONTEND_NCURSES
@@ -63,6 +50,8 @@ int main(int argc, char* argv[])
 	init_pair(1, COLOR_YELLOW, COLOR_RED);  /*color pair for the selected line */
 	init_pair(2, COLOR_WHITE,  COLOR_CYAN);  /*color pair for "inactive sections" */
 	init_pair(3, COLOR_WHITE,  COLOR_BLUE);  /*color pair for active sections and the title */
+
+	init_pair(4, COLOR_RED,    COLOR_CYAN);
 	assume_default_colors(COLOR_WHITE, COLOR_BLACK);  /*default to white on black */
 
 	ninterface(); /* start the interactive ncurses interface */
