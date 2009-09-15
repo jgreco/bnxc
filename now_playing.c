@@ -276,7 +276,7 @@ static void update_display()
 	mvprintw(3,COLS/2-strlen(status_messages[curr_status])/2,"%s", status_messages[curr_status]);
 	mvprintw(4,COLS/2-7,"%02d:%02d of %02d:%02d", last_dur/60000, (last_dur / 1000) % 60, curr_dur / 60000, (curr_dur / 1000) % 60);
 
-	bar_len = ((double)COLS * .8);
+	bar_len = ((double)COLS * .9);
 	bar_partial_len = ((bar_len*7) * (((double)last_dur) / ((double)curr_dur)));
 
 	fullblocks = bar_partial_len / 8;
