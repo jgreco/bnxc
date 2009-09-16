@@ -9,6 +9,27 @@
 
 #ifdef FRONTEND_NCURSES
 
+static int nmenu(menu_parameters params);  /* menu display and input system */
+static void destroy_menu_params(menu_parameters params);
+
+static typedef struct menu_parameters_str {
+	char** list;
+	unsigned int list_len;
+
+	char *title;
+
+	char** sections;
+	unsigned int num_sections;
+	unsigned int curr_section;
+
+	char *commands;
+	unsigned int entered;
+	unsigned int select;
+	unsigned int scroll;
+	unsigned int height;
+	unsigned int width;
+} *menu_parameters;
+
 
 /* the menu logic for the ncurses interface, much simpler than it looks...
  */
@@ -168,7 +189,7 @@ void ninterface()
 /* menu drawing routine for the ncurses version, designed to be relatively re-usable.
  * breif explaination of arguments follows:
 */
-int nmenu(menu_parameters params)
+static int nmenu(menu_parameters params)
 {
 	unsigned int list_height;
 	unsigned int key=0;
@@ -273,5 +294,11 @@ int nmenu(menu_parameters params)
 			return params->select;
 		}
 	}
+}
+
+static void destroy_menu_params(menu_parameters params)
+{
+	free(params->list);
+	free(params);
 }
 #endif

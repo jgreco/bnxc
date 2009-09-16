@@ -47,31 +47,9 @@ typedef struct nlist {
 	char name[STRN_SIZE];
 } *list;
 
-/*data structure for ncurses menu. */
-#ifdef FRONTEND_NCURSES
-typedef struct menu_parameters_str {
-	char** list;
-	unsigned int list_len;
-
-	char *title;
-
-	char** sections;
-	unsigned int num_sections;
-	unsigned int curr_section;
-
-	char *commands;
-	unsigned int entered;
-	unsigned int select;
-	unsigned int scroll;
-	unsigned int height;
-	unsigned int width;
-} *menu_parameters;
-#endif
-
 /* FOUND IN utils.c */
 	char *strip_nl();
 	int stringcmp(const void *a, const void *b);
-	void destroy_menu_params(menu_parameters params);
 
 /* FOUND IN db.c */
 	unsigned int num_artists;  /*count of how many artists are in the database */
@@ -91,7 +69,6 @@ typedef struct menu_parameters_str {
 /* FOUND IN frontend.c */
 #ifdef FRONTEND_NCURSES
 	void ninterface();  /* menu driver */
-	int nmenu(menu_parameters params);  /* menu display and input system */
 #endif
 
 /* FOUND IN now_playing.c */

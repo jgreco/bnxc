@@ -34,7 +34,6 @@ wchar_t ramp[] = L"▏▎▍▌▋▊▉█";
 
 static void update_display();
 
-static void quit(void *data);
 static void *ml_thread();
 static int handle_current_id(xmmsv_t *val, void *userdata);
 static int handle_playtime(xmmsv_t *val, void *userdata);
@@ -90,7 +89,6 @@ void now_playing()
 				handle_status_change, NULL);
 
 
-	xmmsc_disconnect_callback_set(connection_async, quit, NULL);
 	xmmsc_mainloop_gmain_init(connection_async);
 	/* DONE SETTING UP THE MAINLOOP */
 
@@ -113,18 +111,13 @@ void now_playing()
 	}
 
 
-	/* START THE MAINLOOP */
 	/* DESTROY THE ASYNC CONNECTION */
 	xmmsc_unref(connection_async);
 }
 
-static void quit(void *data)
-{
-	return;
-}
-
 static void *ml_thread()
 {
+	/* START THE MAINLOOP */
 	g_main_loop_run(ml);
 
 	return NULL;
