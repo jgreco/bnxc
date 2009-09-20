@@ -9,10 +9,7 @@
 
 #ifdef FRONTEND_NCURSES
 
-static int nmenu(menu_parameters params);  /* menu display and input system */
-static void destroy_menu_params(menu_parameters params);
-
-static typedef struct menu_parameters_str {
+typedef struct menu_parameters_str {
 	char** list;
 	unsigned int list_len;
 
@@ -29,6 +26,10 @@ static typedef struct menu_parameters_str {
 	unsigned int height;
 	unsigned int width;
 } *menu_parameters;
+
+
+static int nmenu(menu_parameters params);  /* menu display and input system */
+static void destroy_menu_params(menu_parameters params);
 
 
 /* the menu logic for the ncurses interface, much simpler than it looks...
