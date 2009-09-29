@@ -7,6 +7,28 @@
 #include "config.h"
 
 #ifdef XMMS2
+
+static void do_reljump(int where)
+{
+	result = xmmsc_playlist_set_next_rel(connection, where);
+	xmmsc_result_wait(result);
+
+	value = xmmsc_result_get_value(result);
+
+	if(xmmsv_get_error(value, &errbuf))
+		fprintf(stderr, "%s", errbuf);
+
+	result = xmmsc_playback_tickle(connection);
+	xmmsc_result_wait(result);
+
+	value = xmmsc_result_get_value(result);
+
+	if(xmmsv_get_error(value, &errbuf))
+		fprintf(stderr, "%s", errbuf);
+
+	return;
+}
+
 void player_add_track(track song)
 {
 	char filename[LINEMAX];
@@ -97,6 +119,20 @@ void player_toggle()
 		player_pause();
 	else
 		player_play();
+
+	return;
+}
+
+void player_next()
+{
+	do_reljump(1);
+
+	return;
+}
+
+void player_previous()
+{
+	do_reljump(-1);
 
 	return;
 }

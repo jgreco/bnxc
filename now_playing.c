@@ -106,7 +106,12 @@ void now_playing()
 			case TOGGLE_PLAY_PAUSE:
 				player_toggle();
 				break;
-
+			case NEXT:
+				player_next();
+				break;
+			case PREVIOUS:
+				player_previous();
+				break;
 		}
 	}
 
@@ -136,7 +141,7 @@ static int handle_playtime(xmmsv_t *val, void *userdata)
 		fflush(stdout);
 	}
 
-	if(((dur / 1000) % 60) != ((last_dur / 1000) % 60)) {
+	if(((dur / 100) % 60) != ((last_dur / 100) % 60)) {
 		last_dur = dur;
 		if(!fetching_songname)
 			update_display();

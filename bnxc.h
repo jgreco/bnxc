@@ -95,5 +95,7 @@ typedef struct nlist {
 	void player_play();
 	void player_pause();
 	void player_toggle();
+	void player_next();
+	void player_previous();
 	void player_stop();
 #endif

@@ -78,10 +78,14 @@ void ninterface()
 			player_add_artist(art);
 
 			player_play();
-		} else if(artists_menu->entered == TOGGLE_PLAY_PAUSE)
+		} else if(artists_menu->entered == TOGGLE_PLAY_PAUSE) {
 			player_toggle();
-		else if(artists_menu->entered == NOWPLAYING) {
+		} else if(artists_menu->entered == NOWPLAYING) {
 			now_playing();
+		} else if(artists_menu->entered == NEXT) {
+			player_next();
+		} else if(artists_menu->entered == PREVIOUS) {
+			player_previous();
 		}
 
 		/* ---===[ ALBUMS MENU ]===--- */
@@ -122,10 +126,14 @@ void ninterface()
 
 					player_add_album(alb);
 					player_play();
-				} else if(albums_menu->entered == TOGGLE_PLAY_PAUSE)
+				} else if(albums_menu->entered == TOGGLE_PLAY_PAUSE) {
 					player_toggle();
-				else if(albums_menu->entered == NOWPLAYING) {
+				} else if(albums_menu->entered == NOWPLAYING) {
 					now_playing();
+				} else if(albums_menu->entered == NEXT) {
+					player_next();
+				} else if(albums_menu->entered == PREVIOUS) {
+					player_previous();
 				}
 
 				/* ---===[ TRACKS MENU ]===--- */
@@ -169,8 +177,13 @@ void ninterface()
 							player_toggle();
 						} else if(tracks_menu->entered == NOWPLAYING) {
 							now_playing();
-						} else if(tracks_menu->entered == KEY_LEFT || tracks_menu->entered == QUIT_BACK) /* exit tracks menu */
+						} else if(tracks_menu->entered == KEY_LEFT || tracks_menu->entered == QUIT_BACK) { /* exit tracks menu */
 							break;
+						} else if(tracks_menu->entered == NEXT) {
+							player_next();
+						} else if(tracks_menu->entered == PREVIOUS) {
+							player_previous();
+						}
 					} /* drop out of tracks here */
 
 					destroy_menu_params(tracks_menu);
