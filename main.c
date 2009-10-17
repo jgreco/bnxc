@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
 	init_pair(2, COLOR_WHITE,  COLOR_CYAN);  /*color pair for "inactive sections" */
 	init_pair(3, COLOR_WHITE,  COLOR_BLUE);  /*color pair for active sections and the title */
 
-	init_pair(4, COLOR_RED,    COLOR_CYAN);
+	init_pair(4, COLOR_BLUE,    COLOR_CYAN);
 	assume_default_colors(COLOR_WHITE, COLOR_BLACK);  /*default to white on black */
 
 	ninterface(); /* start the interactive ncurses interface */
