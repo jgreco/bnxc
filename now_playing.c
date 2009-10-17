@@ -30,7 +30,7 @@ static const char *status_messages[] = {
 	"Paused"
 };
 
-wchar_t ramp[] = L"▏▎▍▌▋▊▉█";
+wchar_t ramp[] = L" ▏▎▍▌▋▊▉█";
 
 static void update_display();
 
@@ -98,6 +98,8 @@ void now_playing()
 
 	while((ch = getch())) {
 		switch(ch) {
+			case 'h':
+			case KEY_LEFT:
 			case QUIT_BACK:
 				pthread_cancel(ml_thd);
 				pthread_join(ml_thd, NULL);
@@ -262,7 +264,8 @@ static int do_mediainfo(xmmsv_t *propdict, void *userdata)
 static void update_display()
 {
 	int fullblocks, partial;
-	int x, bar_len, bar_partial_len;
+	int x, bar_len, bar_full_len;
+	double progress;
 
 	if(!has_songname)
 		return;
@@ -275,10 +278,19 @@ static void update_display()
 	mvprintw(4,COLS/2-7,"%02d:%02d of %02d:%02d", last_dur/60000, (last_dur / 1000) % 60, curr_dur / 60000, (curr_dur / 1000) % 60);
 
 	bar_len = ((double)COLS * .9);
-	bar_partial_len = ((bar_len*7) * (((double)last_dur) / ((double)curr_dur)));
+	bar_full_len = bar_len*8;
+	progress = ((double)last_dur) / ((double)curr_dur);
+	if(progress > 1.0)
+		progress = 1.0;
 
-	fullblocks = bar_partial_len / 8;
-	partial = bar_partial_len % 8;
+	fullblocks = (progress*bar_len);
+	partial = (int)(progress*bar_full_len) % 8;
+
+/*mvprintw(8,0,"bar size: %d", bar_len);
+mvprintw(9,0,"bar full size: %d", bar_full_len);
+mvprintw(10,0,"bar progress: %f", progress);
+mvprintw(11,0,"fullblocks: %d", fullblocks);
+mvprintw(12,0,"partial block: %d", partial);*/
 
 	for(x=0; x<fullblocks; x++)
 		mvprintw(6,COLS/2-bar_len/2 + x, "█");
