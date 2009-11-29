@@ -8,7 +8,7 @@
 
 int main(int argc, char* argv[])
 {
-	char *db_file = getenv("BNXC");
+	char *db_file = "/home/john/.bnxc/default.db";  //getenv("BNXC");
 
 	if(db_file == NULL) {
 		fprintf(stderr, "failed to read the enviromental variable: BNXC\n");
