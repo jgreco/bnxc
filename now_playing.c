@@ -238,7 +238,7 @@ static int do_mediainfo(xmmsv_t *propdict, void *userdata)
 			char *filename = g_path_get_basename(url);
 
 			if(filename) {
-				g_snprintf(songname, sizeof(songname), "%s", filename);
+				snprintf(songname, sizeof(songname), "%s", filename);
 				g_free(filename);
 				has_songname = 1;
 			}
